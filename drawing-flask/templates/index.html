@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Test</title>
+    <script src="{{ url_for('static', filename='draw.js' ) }}"></script>
+</head>
+
+<body>
+    <div style="display: flex; align-items: center;">
+        <canvas id="canvas" width="280px" height="280px" style="border: 3px solid black"></canvas>
+        <canvas id="tempCanvas" width="28px" height="28px" style="border: 3px solid black"></canvas>
+        <canvas id="ans" width="280px" height="280px" style="border: 3px solid black"></canvas>
+    </div>
+    <button id="cls">clear</button>
+    <button id="submit">submit</button>
+</body>
+
+</html>
