@@ -2,11 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // mnist [white] 0 - 1 [black]
     // rgba [white] all 255 - all 0 [black]
-    var mnist_arr = [];
+    var mnist_arr;
+    var data;
 
     // input canvas
     const canvas = document.getElementById("canvas");
-    const context = canvas.getContext("2d")
+    const context = canvas.getContext("2d");
 
     // mnist canvas
     const tempCanvas = document.getElementById("tempCanvas");
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // [bug fixed "how iy work?"]
     document.getElementById("submit").addEventListener("click", () => {
 
-        var data;
+        //var data;
         const img = new Image();
         img.crossOrigin = "Anonymous";
         img.src = canvas.toDataURL("image/png");
@@ -67,24 +68,18 @@ document.addEventListener('DOMContentLoaded', () => {
         img.addEventListener('load', () => {
             tempContext.drawImage(img, 0, 0, canvas.width, canvas.height, 0, 0, tempCanvas.width, tempCanvas.height);
             data = tempContext.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-            console.log(data.data);
+            mnist_arr = convertMnist(mnist_arr, data.data);
+            console.log(data.data); 
+            console.log(mnist_arr);
         });
 
-        /*
-        console.log("test");
-        console.log(data);
-        /*
-        
-        const img2 = new Image();
-        img2.crossOrigin = "Anonymous";
-        img2.src = tempCanvas.toDataURL("image/png");
-
-        //let data = tempContext.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-        /*
-        document.getElementById("result").innerHTML = "";
-        document.getElementById("result").append(img2);
-        */  
     });
+
+    // checking importance value
+    document.getElementById("check").onclick = () => {
+        console.log(data.data); 
+        console.log(mnist_arr);
+    }
 
     // for clear canvas
     function fillWhite() {
@@ -94,4 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
         tempContext.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
     }
 
+    function convertMnist(arr, data) {
+        arr = [];
+        let m, r;
+
+        for(var i=0;i<=data.length-1;i+=4){
+            r = (data[i] + data[i+1] + data[i+2])/(3*255);
+            m = 1 - r;
+            arr.push(m);
+        }
+
+        return arr;
+    }
 });
